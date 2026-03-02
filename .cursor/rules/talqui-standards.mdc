@@ -1,0 +1,48 @@
+---
+description: Padrões gerais do projeto Talqui — design system, tokens, ícones e acessibilidade
+alwaysApply: true
+---
+
+# Padrões gerais Talqui
+
+## Design system
+
+- Antes de implementar uma página, verificar `design-system/pages/[nome-da-pagina].md`. Se existir, suas regras **sobrescrevem** o `design-system/talqui/MASTER.md`.
+- Estilo global: **Glassmorphism** (blur, transparência, profundidade). Ver MASTER.md para detalhes.
+
+## Tokens de design
+
+Usar **sempre** as variáveis CSS Talqui definidas em `src/index.css`:
+
+| Uso | Token |
+|-----|--------|
+| Fundo secundário (sidebar, chips) | `--talqui-bg-weaker` |
+| Fundo base | `--talqui-bg-base` / branco |
+| Texto principal / destaque | `--talqui-text-primary` |
+| Texto forte | `--talqui-text-strong` |
+| Texto médio | `--talqui-text-medium` |
+| Texto fraco / placeholder | `--talqui-text-weak` |
+| Bordas | `--talqui-border-weak` |
+| Raios | `--talqui-radius-sm`, `--talqui-radius-lg`, `--talqui-radius-xl` |
+| Sucesso / status ativo | `--talqui-green-500` |
+| Largura máxima do container main | `--talqui-main-max-w` (1200px) |
+
+No Tailwind: `bg-(--talqui-bg-weaker)`, `text-(--talqui-text-medium)`, `rounded-(--talqui-radius-lg)`, ou `border-[var(--talqui-border-weak)]`.
+
+## Ícones
+
+- Usar o conjunto **Icons** de `src/components/icons` (Hugeicons). Exemplo: `Icons.Chat`, `Icons.Settings`, `Icons.Search`.
+- Tamanhos padrão: **20** para itens de lista/nav, **24** para controles maiores.
+- **Nunca** usar emojis como ícones.
+
+## Acessibilidade e interação
+
+- Todo elemento clicável deve ter `cursor-pointer` (ou equivalente).
+- Transições em hovers/mudanças de estado: **150–300ms**.
+- Estados de foco devem ser **visíveis** (não remover outline sem substituir por ring/focus visível).
+- Respeitar `prefers-reduced-motion` quando houver animações.
+- Contraste de texto: mínimo **4.5:1** (modo claro).
+
+## Anti-padrões (evitar)
+
+- Emojis como ícones; mudanças de layout no hover (evitar scale que desloca conteúdo); contraste baixo; mudanças de estado instantâneas sem transição; modo escuro como padrão sem definição no design system.

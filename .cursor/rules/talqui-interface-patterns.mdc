@@ -1,0 +1,43 @@
+---
+description: Padrões de interface Talqui — headers, filtros, botões, inputs e componentes
+globs: "**/*.tsx"
+alwaysApply: false
+---
+
+# Padrões de interface
+
+## PageHeader
+
+- Altura: `min-h-[60px] max-h-16`, `shrink-0`.
+- Estilo: `flex items-center justify-between border-b border-[var(--talqui-border-weak)] bg-white px-4 py-1`.
+- Título: `text-base font-bold leading-6 text-[var(--talqui-text-medium)] truncate`.
+
+## Barras de filtro / segmentos
+
+- Container de opções (ex.: “Todas” / “Instaladas” ou “Todos” / “Grátis” / “Pago”): `rounded-[var(--talqui-radius-sm)] border border-[var(--talqui-border-weak)] bg-white p-1`, botões em `gap-1`.
+- Botão inativo: `text-[var(--talqui-text-medium)] hover:bg-neutral-50`.
+- Botão ativo: `bg-[var(--talqui-bg-weaker)] text-[var(--talqui-text-primary)]`.
+- Botões: `rounded-[var(--talqui-radius-sm)] px-3 py-2 text-sm font-semibold`.
+
+## Inputs e campos
+
+- Input de busca e selects: `rounded-[var(--talqui-radius-sm)] border border-[var(--talqui-border-weak)] bg-white`, altura consistente (ex.: `h-10`).
+- Placeholder: `text-[var(--talqui-text-weak)]`.
+- Texto digitado: `text-[var(--talqui-text-strong)]`.
+- Ícone dentro do campo: `text-[var(--talqui-text-weak)]`, tamanho 20 para busca e 24 para dropdown (ex.: ChevronDown).
+
+## Cards e listas
+
+- Usar tokens `--talqui-*` para bordas, fundos e texto (ver regra “Padrões gerais Talqui”).
+- Grid de cards (ex.: extensões): `grid gap-4` com colunas definidas (ex.: `grid-cols-3`); usar `max-w-none` no container para não limitar largura pelo conteúdo.
+
+## Modais
+
+- Overlay: fundo escuro com blur (ex.: `backdrop-filter`), cobrindo a tela.
+- Conteúdo: fundo branco, `rounded` com token Talqui (ex.: `--talqui-radius-xl`), sombra forte para elevação.
+- Botões de ação primária: alinhados ao padrão de CTA do design system (MASTER.md); secundários com borda.
+
+## Consistência
+
+- Evitar cores hardcoded (ex.: `text-neutral-600`). Preferir `text-[var(--talqui-text-medium)]`, `border-[var(--talqui-border-weak)]`, etc.
+- Manter espaçamentos com `gap-2`, `gap-4`, `gap-8` e padding `px-4`, `px-10`, `py-8` conforme hierarquia da página.

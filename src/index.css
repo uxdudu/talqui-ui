@@ -1,0 +1,56 @@
+@import "@voaii/proxima-nova/latin.css";
+@import "tailwindcss";
+
+:root {
+  font-family: "Proxima Nova", var(--talqui-font-sans, system-ui, -apple-system, sans-serif);
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Talqui design tokens (from Figma) */
+  --talqui-font-sans: "Proxima Nova", system-ui, -apple-system, sans-serif;
+  --talqui-bg-weaker: #f2f4f8;
+  --talqui-bg-base: #ffffff;
+  --talqui-bg-strongest: #272835;
+  --talqui-border-weak: #eceff4;
+  --talqui-border-normal: #eceff3;
+  --talqui-border-strong: #353849;
+  --talqui-text-primary: #007aff;
+  --talqui-primary-a10: rgba(0, 122, 255, 0.1);
+  --talqui-text-strong: #353849;
+  --talqui-text-medium: #666d80;
+  --talqui-text-weak: #808897;
+  --talqui-text-success: #0a7028;
+  --talqui-green-500: #11c644;
+  --talqui-green-a10: rgba(17, 198, 68, 0.1);
+  --talqui-radius-sm: 8px;
+  --talqui-radius-lg: 12px;
+  --talqui-radius-xl: 16px;
+  --talqui-radius-full: 999px;
+  /* Nested border radius: inner = outer - padding (see https://www.30secondsofcode.org/css/s/nested-border-radius/) */
+  --talqui-radius-sm-inset-2: calc(var(--talqui-radius-sm) - 2px); /* outer sm, padding 0.5 (2px) */
+  --talqui-radius-sm-inset-4: calc(var(--talqui-radius-sm) - 4px); /* outer sm, padding 1 (4px) */
+  --talqui-radius-lg-inset-4: calc(var(--talqui-radius-lg) - 4px); /* outer lg, padding 1 (4px) */
+  --talqui-main-max-w: 1200px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Tiptap / Notion-like editor */
+.notion-like-editor .ProseMirror {
+  outline: none;
+}
+.notion-like-editor .ProseMirror p + p {
+  margin-top: 0.5em;
+}
+.notion-like-editor .ProseMirror ul,
+.notion-like-editor .ProseMirror ol {
+  padding-left: 1.5rem;
+}

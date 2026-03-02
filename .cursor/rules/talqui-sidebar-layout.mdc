@@ -1,0 +1,55 @@
+---
+description: Comportamento da Sidebar e estrutura de layout das páginas Talqui
+alwaysApply: true
+---
+
+# Sidebar e layout de páginas
+
+## Sidebar única e padrão
+
+A Sidebar exibida na página de configuração da extensão (e na lista de extensões) **é o padrão em todas as páginas**. Deve ser sempre o **mesmo componente**, com a **mesma aparência e comportamento** em qualquer tela da aplicação (lista, configurações de extensão, mensagens, envio, agenda, relatórios, etc.).
+
+- **Usar sempre** o componente em `src/components/layout/Sidebar.tsx`. Importar de lá em todas as páginas que usam o shell da aplicação.
+- **Não criar** sidebars alternativas, variantes por página ou componentes “Sidebar” em outras pastas. Uma única Sidebar para toda a aplicação.
+- **Classe do `<aside>`**: `flex h-full w-20 shrink-0 flex-col items-center justify-between overflow-hidden bg-(--talqui-bg-weaker) py-4` — manter idêntica para consistência visual.
+
+## Estrutura do shell da aplicação
+
+Toda página que usa a sidebar deve seguir esta estrutura:
+
+```
+[Container flex full width]
+  ├── <Sidebar />           (fixo à esquerda; sempre o componente de layout)
+  └── [Área principal]      (flex-1, scroll/overflow interno)
+        ├── <PageHeader />? (opcional; ocultar em subpáginas fullscreen)
+        └── [Conteúdo]      (bg white, overflow-auto ou overflow-hidden conforme necessidade)
+```
+
+- **Container**: `flex w-full bg-(--talqui-bg-weaker) p-1` e **sempre** `h-screen overflow-hidden` (não usar `min-h-screen` no shell). Assim a sidebar tem altura fixa (100% da viewport) e o `justify-between` mantém o bloco inferior (Configurações, Ajuda, avatar) no rodapé em todas as telas. O scroll fica apenas na área de conteúdo principal.
+- **Sidebar**: primeiro filho, sempre presente. Não colocar conteúdo principal antes da Sidebar.
+
+## Comportamento da Sidebar
+
+- **Largura fixa**: `w-20` (80px), `shrink-0`.
+- **Layout**: `flex flex-col h-full justify-between overflow-hidden py-4`.
+- **Topo**: bloco com `shrink-0` — logo/avatar (h-16) + navegação em coluna (`gap-2`). Cada item de nav: botão `h-10 w-10`, ícone 20px, `rounded-(--talqui-radius-lg)`, ativo: `bg-(--talqui-bg-weaker)`, inativo: `hover:bg-white/50`, `text-(--talqui-text-medium)`.
+- **Rodapé**: bloco com `shrink-0` — botões Configurações e Ajuda (mesmo estilo dos itens de nav), depois avatar com indicador de status (ex.: `ring-2 ring-white`, bolinha verde `bg-(--talqui-green-500)`).
+- **Ícones**: sempre via `Icons` de `src/components/icons`, tamanho 20. Avatar/imagens via `src/lib/figma-assets` quando aplicável.
+
+## Container da área principal (main)
+
+- **Largura máxima**: usar a variável `--talqui-main-max-w` (1200px) para limitar a largura do conteúdo principal quando aplicável.
+- **Classe Tailwind**: `max-w-[var(--talqui-main-max-w)]` no wrapper do conteúdo centralizado.
+- **Exemplo**: `<div className="mx-auto w-full max-w-[var(--talqui-main-max-w)] flex flex-col gap-8">`. A variável está definida em `src/index.css`.
+
+## Área principal
+
+- **Wrapper**: `flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-(--talqui-radius-xl)`.
+- **PageHeader**: quando a página não for uma subvisão fullscreen (ex.: tela de configurações de extensão), exibir o header no topo. Quando for subvisão que ocupa toda a área, **não** exibir PageHeader.
+- **Área de conteúdo**: `flex min-h-0 flex-1 w-full bg-white overflow-hidden`. Dentro:
+  - Lista/conteúdo normal: `flex flex-col gap-8 overflow-auto px-10 py-8` (ou equivalente).
+  - Subpágina fullscreen (ex.: configurações): `flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden` para o conteúdo que gerencia seu próprio scroll.
+
+## Exemplo de referência
+
+Ver `src/pages/extensoes/ExtensoesPage.tsx`: import de `Sidebar` de `../../components/layout/Sidebar`, condicional `PageHeader` com `!settingsExtension`, e alternância entre conteúdo em lista (`overflow-auto px-10 py-8`) e subpágina fullscreen (`ExtensionSettingsPage`).

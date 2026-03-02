@@ -4,6 +4,7 @@ export { ConnectionListContent } from "./ConnectionListContent";
 export { SaveBar } from "./SaveBar";
 export { StatusBadge } from "./StatusBadge";
 export { IFoodGlobalSettingsContent } from "./IFoodGlobalSettingsContent";
+export { ExtensionStatusContent } from "./ExtensionStatusContent";
 export { InstagramSettingsContent } from "./InstagramSettingsContent";
 export { LugaresSettingsContent } from "./LugaresSettingsContent";
 export { CalendlySettingsContent } from "./CalendlySettingsContent";

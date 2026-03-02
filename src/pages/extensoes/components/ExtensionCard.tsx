@@ -3,6 +3,7 @@ import { getExtensionLogo, getLocalExtensionLogoUrl } from "../../../lib/brand-i
 import { getExtensionLogoUrl } from "../../../lib/brandfetch";
 import { Button } from "../../../components/ui/Button";
 import { Icons } from "../../../components/icons/Icons";
+import { getExtensionOverallStatus } from "./settings/extension-status-data";
 
 interface ExtensionCardProps {
   extension: Extension;
@@ -26,6 +27,8 @@ export function ExtensionCard({
   const isInstalled = extension.installed !== false;
   const isMulti = extension.allowsMultipleConnections === true;
   const showConnectionCount = isMulti;
+  const serviceStatus = getExtensionOverallStatus(extension.id);
+  const showServiceStatusBadge = serviceStatus === "outage" || serviceStatus === "degraded";
   const priceLabel =
     extension.price.type === "free"
       ? "Grátis"
@@ -37,13 +40,41 @@ export function ExtensionCard({
   const isTrial = extension.price.type === "trial";
 
   return (
-    <article className="flex h-[276px] min-w-[318px] w-full flex-1 flex-col justify-between overflow-hidden rounded-[var(--talqui-radius-xl)] border border-[var(--talqui-border-weak)] bg-[var(--talqui-bg-base)]">
+    <article
+      className={`flex min-h-[276px] min-w-[318px] w-full flex-1 flex-col justify-between overflow-hidden rounded-[var(--talqui-radius-xl)] border bg-[var(--talqui-bg-base)] ${
+        serviceStatus === "outage"
+          ? "border-red-200 bg-red-50/30"
+          : serviceStatus === "degraded"
+            ? "border-amber-200 bg-amber-50/20"
+            : "border-[var(--talqui-border-weak)]"
+      }`}
+    >
       <div className="relative flex flex-1 flex-col gap-4 p-5">
+        {/* Badge: serviço fora do ar / degradado */}
+        {showServiceStatusBadge && (
+          <div className="flex items-center gap-1.5 rounded-[var(--talqui-radius-sm)] px-2 py-1.5 text-xs font-semibold w-fit">
+            {serviceStatus === "outage" ? (
+              <>
+                <span className="flex h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" aria-hidden />
+                <span className="text-red-700">Fora do ar</span>
+              </>
+            ) : (
+              <>
+                <span className="flex h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500" aria-hidden />
+                <span className="text-amber-800">Serviço degradado</span>
+              </>
+            )}
+          </div>
+        )}
         {/* Badges: quando instalado = tag Instalado + preço; quando não = só preço */}
         <div className="absolute right-[19.5px] top-[19.5px] flex items-center gap-2">
           {isInstalled && (
-            <span className="flex h-5 items-center gap-1 rounded-[var(--talqui-radius-full)] bg-[var(--talqui-bg-weaker)] px-2 py-1 text-[10px] font-medium leading-3 text-[var(--talqui-text-medium)]">
-              <Icons.CheckCircle size={10} className="shrink-0 text-[var(--talqui-text-medium)]" />
+            <span className="flex h-5 items-center gap-1.5 text-[10px] font-thin leading-[12px] text-(--talqui-text-medium)">
+              <span className="flex h-3.5 w-3.5 shrink-0 items-center justify-center text-(--talqui-text-medium)" aria-hidden>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 6l3 3 5-6" />
+                </svg>
+              </span>
               Instalado
             </span>
           )}
@@ -125,7 +156,7 @@ export function ExtensionCard({
         </div>
       </div>
 
-      <div className="flex items-center justify-between border-t border-[var(--talqui-border-weak)] py-4 px-5">
+      <div className="flex shrink-0 items-center justify-between border-t border-[var(--talqui-border-weak)] py-4 px-5">
         <div className="flex items-center gap-2">
           <button
             type="button"

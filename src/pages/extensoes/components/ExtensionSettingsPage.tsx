@@ -4,6 +4,7 @@ import {
   ConfigHeader,
   ConnectionListContent,
   ConnectionSettingsRouter,
+  ExtensionStatusContent,
   IFoodGlobalSettingsContent,
   SaveBar,
 } from "./settings";
@@ -245,43 +246,51 @@ export function ExtensionSettingsPage({
             <>
               <div className="flex min-h-0 flex-1 flex-col overflow-auto">
                 <div className="mx-auto w-full max-w-[720px] flex flex-col gap-8 px-6 py-8">
-                  <ConfigHeader
-                    extension={extension}
-                    connection={selectedConnection}
-                    mode={allowsMultiple ? "multi" : "single"}
-                    showConnectionId={!!allowsMultiple}
-                    onConnectionNameChange={
-                      allowsMultiple && selectedConnection
-                        ? handleConnectionNameChange
-                        : undefined
-                    }
-                    onReconnect={
-                      selectedConnection
-                        ? () => {
-                            /* Lógica de reconexão (OAuth etc.) fica fora do template */
-                          }
-                        : undefined
-                    }
-                  />
-                  <ConnectionSettingsRouter
-                    extension={extension}
-                    connection={selectedConnection}
-                    onConnectionChange={handleConnectionChange}
-                    onUninstall={onUninstall}
-                    registerSaveHandler={(fn) => {
-                      saveHandlerRef.current = fn;
-                    }}
-                    hideContentHeader
-                    activeTabId={activeTabId}
-                  />
+                  {activeTabId === "status" ? (
+                    <ExtensionStatusContent extension={extension} />
+                  ) : (
+                    <>
+                      <ConfigHeader
+                        extension={extension}
+                        connection={selectedConnection}
+                        mode={allowsMultiple ? "multi" : "single"}
+                        showConnectionId={!!allowsMultiple}
+                        onConnectionNameChange={
+                          allowsMultiple && selectedConnection
+                            ? handleConnectionNameChange
+                            : undefined
+                        }
+                        onReconnect={
+                          selectedConnection
+                            ? () => {
+                                /* Lógica de reconexão (OAuth etc.) fica fora do template */
+                              }
+                            : undefined
+                        }
+                      />
+                      <ConnectionSettingsRouter
+                        extension={extension}
+                        connection={selectedConnection}
+                        onConnectionChange={handleConnectionChange}
+                        onUninstall={onUninstall}
+                        registerSaveHandler={(fn) => {
+                          saveHandlerRef.current = fn;
+                        }}
+                        hideContentHeader
+                        activeTabId={activeTabId}
+                      />
+                    </>
+                  )}
                 </div>
               </div>
+              {activeTabId !== "status" && (
               <SaveBar
                 isMulti={!!allowsMultiple}
                 onBackToList={allowsMultiple ? onBackToList : undefined}
                 onSave={() => saveHandlerRef.current?.()}
                 saving={false}
               />
+              )}
             </>
           )}
         </main>

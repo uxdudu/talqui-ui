@@ -9,13 +9,21 @@ const GENERIC_TABS: SettingsTabItem[] = [
   { id: "conexao", label: "Conexão", description: "Status e reconexão" },
   { id: "parametros", label: "Parâmetros", description: "Webhook, API e opções" },
   { id: "permissoes", label: "Permissões", description: "Escopo de acesso" },
+  { id: "status", label: "Status", description: "Status da API e incidentes" },
 ];
 
 /** iFood: mesmo padrão visual do single (sidebar de abas) ao abrir uma conexão. */
 const IFOOD_TABS: SettingsTabItem[] = [
   { id: "loja", label: "Loja", description: "Informações da loja" },
   { id: "automacoes", label: "Automações", description: "Respostas e notificações" },
+  { id: "status", label: "Status", description: "Status da API e incidentes" },
 ];
+
+const STATUS_TAB: SettingsTabItem = {
+  id: "status",
+  label: "Status",
+  description: "Status da API e incidentes",
+};
 
 /** Extensões com uma única aba (sem sidebar de abas). */
 const SINGLE_TAB_EXTENSIONS = new Set([
@@ -31,7 +39,11 @@ const SINGLE_TAB_EXTENSIONS = new Set([
  */
 export function getSettingsTabs(extensionId: string): SettingsTabItem[] {
   if (extensionId === "ifood") return IFOOD_TABS;
-  return SINGLE_TAB_EXTENSIONS.has(extensionId)
-    ? [{ id: "geral", label: "Geral", description: "Configurações da conexão" }]
-    : GENERIC_TABS;
+  if (SINGLE_TAB_EXTENSIONS.has(extensionId)) {
+    return [
+      { id: "geral", label: "Geral", description: "Configurações da conexão" },
+      STATUS_TAB,
+    ];
+  }
+  return GENERIC_TABS;
 }

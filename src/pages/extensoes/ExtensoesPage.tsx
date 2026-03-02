@@ -46,6 +46,15 @@ export function ExtensoesPage({ activeNav = "extensoes", onNavTo }: ExtensoesPag
       ? extensions.filter((e) => e.enabled)
       : extensions;
 
+  const filteredByPrice =
+    tab === "gratis"
+      ? displayedExtensions.filter((e) => e.price.type === "free")
+      : tab === "pago"
+        ? displayedExtensions.filter(
+            (e) => e.price.type === "paid" || e.price.type === "trial"
+          )
+        : displayedExtensions;
+
   const handleToggle = (id: string, enabled: boolean) => {
     setExtensions((prev) =>
       prev.map((e) =>
@@ -181,8 +190,8 @@ export function ExtensoesPage({ activeNav = "extensoes", onNavTo }: ExtensoesPag
                   tab={tab}
                   onTabChange={setTab}
                 />
-                <div className="grid w-full max-w-none gap-4 grid-cols-3 grid-rows-3">
-                  {displayedExtensions.map((ext) => (
+                <div className="grid w-full max-w-none grid-cols-3 gap-4">
+                  {filteredByPrice.map((ext) => (
                     <ExtensionCard
                       key={ext.id}
                       extension={ext}

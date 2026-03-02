@@ -91,7 +91,7 @@ const LOGO_SOCIAL =
 const LOGO_APP =
   "https://www.figma.com/api/mcp/asset/e0bcbe19-fe9c-4d3b-ae6e-3b4a5ffc397b";
 
-/** Extensões com enabled/showSettings true (iFood, Mercado Livre, Hotmart, e uma paga fictícia) estão assim apenas para testar a UI. */
+/** Extensões com enabled/showSettings/installed variados para exemplificar a UI. */
 
 export const EXTENSIONS: Extension[] = [
   {
@@ -103,6 +103,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
   },
   {
     id: "whatsapp-api",
@@ -113,6 +114,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -124,6 +126,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -132,9 +135,10 @@ export const EXTENSIONS: Extension[] = [
     description:
       "Sincronize clientes e ordens de serviço do IXC com o painel para agilizar atendimento e abertura de chamados.",
     logoUrl: LOGO_APP,
-    price: { type: "free" },
+    price: { type: "paid", value: "89" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -147,6 +151,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "trial", minDays: 7 },
     enabled: true,
     showSettings: true,
+    installed: true,
     allowsMultipleConnections: true,
   },
   {
@@ -158,6 +163,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -169,7 +175,8 @@ export const EXTENSIONS: Extension[] = [
     brandfetchDomain: "calendly.com",
     price: { type: "free" },
     enabled: false,
-    showSettings: false,
+    showSettings: true,
+    installed: true,
     allowsMultipleConnections: true,
   },
   {
@@ -179,9 +186,10 @@ export const EXTENSIONS: Extension[] = [
       "Sincronize contatos e negócios do Pipedrive com o painel para um atendimento alinhado ao funil de vendas.",
     logoUrl: LOGO_APP,
     brandfetchDomain: "pipedrive.com",
-    price: { type: "free" },
+    price: { type: "paid", value: "49" },
     enabled: false,
-    showSettings: false,
+    showSettings: true,
+    installed: true,
   },
   {
     id: "pipefy",
@@ -193,6 +201,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
   },
   {
     id: "mercadolivre",
@@ -202,8 +211,9 @@ export const EXTENSIONS: Extension[] = [
     logoUrl: LOGO_APP,
     brandfetchDomain: "mercadolivre.com.br",
     price: { type: "trial", minDays: 14 },
-    enabled: true,
+    enabled: false,
     showSettings: true,
+    installed: true,
     allowsMultipleConnections: true,
   },
   {
@@ -216,6 +226,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: true,
     showSettings: true,
+    installed: true,
     allowsMultipleConnections: true,
   },
   {
@@ -228,6 +239,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -240,6 +252,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -249,9 +262,10 @@ export const EXTENSIONS: Extension[] = [
       "Integração com a API Oficial do WhatsApp para enviar e receber mensagens com número verificado.",
     logoUrl: LOGO_APP,
     brandfetchDomain: "whatsapp.com",
-    price: { type: "free" },
+    price: { type: "paid", value: "99" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -264,6 +278,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -274,8 +289,9 @@ export const EXTENSIONS: Extension[] = [
     logoUrl: LOGO_APP,
     brandfetchDomain: "hotmart.com.br",
     price: { type: "trial", minDays: 7 },
-    enabled: true,
+    enabled: false,
     showSettings: true,
+    installed: true,
   },
   {
     id: "leaf-provedor",
@@ -286,6 +302,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -298,6 +315,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -309,6 +327,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -320,6 +339,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -331,6 +351,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -342,6 +363,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
     allowsMultipleConnections: true,
   },
   {
@@ -351,9 +373,10 @@ export const EXTENSIONS: Extension[] = [
       "Crie e atualize issues do Jira a partir do atendimento e mantenha suporte e desenvolvimento alinhados.",
     logoUrl: LOGO_APP,
     brandfetchDomain: "atlassian.com",
-    price: { type: "free" },
+    price: { type: "paid", value: "29" },
     enabled: false,
-    showSettings: false,
+    showSettings: true,
+    installed: true,
   },
   {
     id: "slack",
@@ -364,7 +387,8 @@ export const EXTENSIONS: Extension[] = [
     brandfetchDomain: "slack.com",
     price: { type: "free" },
     enabled: false,
-    showSettings: false,
+    showSettings: true,
+    installed: true,
   },
   {
     id: "hubspot",
@@ -373,9 +397,10 @@ export const EXTENSIONS: Extension[] = [
       "Sincronize contatos e atividades do HubSpot com o painel para um atendimento orientado a CRM.",
     logoUrl: LOGO_APP,
     brandfetchDomain: "hubspot.com",
-    price: { type: "free" },
+    price: { type: "paid", value: "79" },
     enabled: false,
     showSettings: false,
+    installed: false,
   },
   {
     id: "dify",
@@ -386,6 +411,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
   },
   {
     id: "resumos",
@@ -396,5 +422,6 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    installed: false,
   },
 ];

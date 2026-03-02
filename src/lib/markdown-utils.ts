@@ -25,7 +25,7 @@ turndown.addRule("mention", {
   filter: (node) =>
     node.nodeName === "SPAN" &&
     node.getAttribute?.("data-type") === "mention",
-  replacement: (content, node) => {
+  replacement: (_content, node) => {
     const el = node as HTMLElement;
     const id = el.getAttribute("data-id") ?? "";
     return id ? `@${id} ` : "";

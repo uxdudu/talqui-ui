@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Icons } from "../../../components/icons";
 import { getExtensionLogoUrl } from "../../../lib/brandfetch";
+import { getExtensionLogo, getLocalExtensionLogoUrl } from "../../../lib/brand-icons";
 import { Button } from "../../../components/ui/Button";
 import type { Conversation } from "../data";
 import type { Extension } from "../../extensoes/data";
+import { IfoodOrderWidget, getMockIfoodOrder } from "./IfoodOrderWidget";
 
 const CHANNEL_LABELS: Record<Conversation["channel"], string> = {
   whatsapp: "WhatsApp",
@@ -81,6 +83,15 @@ export function ConversationSidebar({
   } = conversation;
 
   const enabledExtensions = extensions.filter((e) => e.enabled);
+  const [activeExtensionIds, setActiveExtensionIds] = useState<string[]>([]);
+  const [showAddExtension, setShowAddExtension] = useState(false);
+
+  const activeExtensions = enabledExtensions.filter((e) =>
+    activeExtensionIds.includes(e.id)
+  );
+  const availableExtensions = enabledExtensions.filter(
+    (e) => !activeExtensionIds.includes(e.id)
+  );
 
   return (
     <aside className="flex h-full w-[320px] shrink-0 flex-col overflow-hidden border-l border-(--talqui-border-weak) bg-white">
@@ -212,26 +223,131 @@ export function ConversationSidebar({
           open={true}
         >
           {enabledExtensions.length > 0 ? (
-            <ul className="flex flex-col gap-2">
-              {enabledExtensions.map((ext) => (
-                <li key={ext.id}>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col items-start justify-start gap-2">
+                <span className="text-xs font-medium text-(--talqui-text-medium)">
+                  Extensões ativas nesta conversa
+                </span>
+                {availableExtensions.length > 0 && (
                   <button
                     type="button"
-                    onClick={() => onUseExtension?.(ext.id)}
-                    className="flex w-full items-center gap-2 rounded-(--talqui-radius-sm) px-2 py-2 text-left transition-colors duration-200 cursor-pointer hover:bg-(--talqui-bg-weaker)"
+                    className="inline-flex h-fit w-full items-center justify-center gap-1 rounded-(--talqui-radius-full) border border-(--talqui-border-weak) bg-white px-2.5 py-2 text-xs font-medium text-(--talqui-text-primary) transition-colors duration-200 cursor-pointer hover:bg-(--talqui-bg-weaker)"
+                    onClick={() => setShowAddExtension((open) => !open)}
                   >
-                    <img
-                      src={getExtensionLogoUrl(ext)}
-                      alt=""
-                      className="h-8 w-8 shrink-0 rounded-(--talqui-radius-sm) object-cover bg-(--talqui-bg-weaker)"
-                    />
-                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-(--talqui-text-primary)">
-                      {ext.name}
-                    </span>
+                    <Icons.Plus size={14} />
+                    Adicionar extensão
                   </button>
-                </li>
-              ))}
-            </ul>
+                )}
+              </div>
+
+              {showAddExtension && availableExtensions.length > 0 && (
+                <div className="rounded-(--talqui-radius-lg) border border-(--talqui-border-weak) bg-white p-2">
+                  <p className="mb-2 text-xs font-medium text-(--talqui-text-medium)">
+                    Escolha uma extensão para ativar nesta conversa:
+                  </p>
+                  <ul className="flex flex-col gap-1.5">
+                    {availableExtensions.map((ext) => (
+                      <li key={ext.id}>
+                        <button
+                          type="button"
+                          className="flex w-full items-center gap-2 rounded-(--talqui-radius-sm) px-2 py-1.5 text-left text-sm text-(--talqui-text-strong) transition-colors duration-200 cursor-pointer hover:bg-(--talqui-bg-weaker)"
+                          onClick={() => {
+                            setActiveExtensionIds((ids) =>
+                              ids.includes(ext.id) ? ids : [...ids, ext.id]
+                            );
+                            setShowAddExtension(false);
+                          }}
+                        >
+                          {(() => {
+                            const Logo = getExtensionLogo(ext.id);
+                            if (Logo) {
+                              return (
+                                <Logo
+                                  className="h-6 w-6 shrink-0 rounded-(--talqui-radius-sm) text-(--talqui-text-strong)"
+                                  aria-hidden
+                                />
+                              );
+                            }
+                            const localLogoUrl = getLocalExtensionLogoUrl(ext.id);
+                            const logoUrl = localLogoUrl ?? getExtensionLogoUrl(ext);
+                            return (
+                              <img
+                                src={logoUrl}
+                                alt=""
+                                className="h-6 w-6 shrink-0 rounded-(--talqui-radius-sm) object-cover bg-(--talqui-bg-weaker)"
+                              />
+                            );
+                          })()}
+                          <span className="min-w-0 flex-1 truncate">{ext.name}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {activeExtensions.length > 0 ? (
+                <div className="flex flex-col gap-3">
+                  {activeExtensions.map((ext) => (
+                    <div
+                      key={ext.id}
+                      className="rounded-(--talqui-radius-lg) border border-(--talqui-border-weak) bg-(--talqui-bg-weaker)/30 p-2"
+                    >
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          {(() => {
+                            const Logo = getExtensionLogo(ext.id);
+                            if (Logo) {
+                              return (
+                                <Logo
+                                  className="h-6 w-6 shrink-0 rounded-(--talqui-radius-sm) text-(--talqui-text-strong)"
+                                  aria-hidden
+                                />
+                              );
+                            }
+                            const localLogoUrl = getLocalExtensionLogoUrl(ext.id);
+                            const logoUrl = localLogoUrl ?? getExtensionLogoUrl(ext);
+                            return (
+                              <img
+                                src={logoUrl}
+                                alt=""
+                                className="h-6 w-6 shrink-0 rounded-(--talqui-radius-sm) object-cover bg-(--talqui-bg-weaker)"
+                              />
+                            );
+                          })()}
+                          <span className="text-sm font-semibold text-(--talqui-text-strong)">
+                            {ext.name}
+                          </span>
+                        </div>
+                        {/* Futuro: ação para remover/desativar a extensão desta conversa */}
+                      </div>
+
+                      {ext.id === "ifood" ? (
+                        <IfoodOrderWidget
+                          order={getMockIfoodOrder()}
+                          extension={ext}
+                        />
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => onUseExtension?.(ext.id)}
+                          className="flex w-full items-center gap-2 rounded-(--talqui-radius-sm) bg-white px-2 py-2 text-left text-sm text-(--talqui-text-primary) transition-colors duration-200 cursor-pointer hover:bg-(--talqui-bg-weaker)"
+                        >
+                          <Icons.Flash size={16} className="shrink-0 text-(--talqui-text-primary)" />
+                          <span className="min-w-0 flex-1 truncate">
+                            Usar {ext.name} nesta conversa
+                          </span>
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-(--talqui-text-weak)">
+                  Nenhuma extensão adicionada ainda nesta conversa. Clique em “Adicionar extensão” para começar.
+                </p>
+              )}
+            </div>
           ) : (
             <p className="text-sm text-(--talqui-text-weak)">
               Nenhuma extensão ativa. Ative extensões na página de Extensões para usar na conversa.

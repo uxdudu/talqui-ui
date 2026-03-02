@@ -43,10 +43,10 @@ export function ProceduresTable({
   }, [openMenuId]);
 
   return (
-    <div className="min-w-0 overflow-auto rounded-(--talqui-radius-lg) border border-(--talqui-border-weak) bg-white">
-      <table className="w-full border-collapse text-left text-sm">
+    <div className="min-w-0 overflow-auto rounded-(--talqui-radius-lg) border border-(--talqui-border-weak) bg-(--talqui-bg-weaker)">
+      <table className="w-full border-collapse overflow-hidden text-left text-sm bg-(--talqui-bg-weaker)">
         <thead>
-          <tr className="border-b border-(--talqui-border-weak) bg-(--talqui-bg-weaker)">
+          <tr className="border-b border-(--talqui-border-weak)">
             {COLUMNS.map((col) => (
               <th
                 key={col.key}
@@ -57,7 +57,7 @@ export function ProceduresTable({
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="overflow-hidden rounded-[var(--talqui-radius-lg)] bg-white">
           {procedures.map((proc) => {
             const inUse = isInUse(proc);
             return (

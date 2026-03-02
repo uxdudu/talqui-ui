@@ -33,13 +33,13 @@ export function FilterBar({
     <div className="flex w-full max-w-none flex-col gap-4">
       <div className="flex w-full flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="flex gap-1 rounded-[var(--talqui-radius-sm)] border border-[var(--talqui-border-weak)] bg-white p-1">
+          <div className="flex gap-1 rounded-full border border-[var(--talqui-border-weak)] bg-white p-1">
             {viewOptions.map((v) => (
               <button
                 key={v.id}
                 type="button"
                 onClick={() => onViewChange(v.id)}
-                className={`rounded-[var(--talqui-radius-sm-inset-4)] px-3 py-2 text-sm font-semibold ${
+                className={`rounded-full px-3 py-2 text-sm font-semibold ${
                   view === v.id
                     ? "bg-[var(--talqui-bg-weaker)] text-[var(--talqui-text-primary)]"
                     : "text-[var(--talqui-text-medium)] hover:bg-neutral-50"
@@ -50,13 +50,13 @@ export function FilterBar({
             ))}
           </div>
           <div className="h-6 w-px bg-[var(--talqui-border-weak)]" />
-          <div className="flex gap-1 rounded-[var(--talqui-radius-sm)] border border-[var(--talqui-border-weak)] bg-white p-1">
+          <div className="flex gap-1 rounded-full border border-[var(--talqui-border-weak)] bg-white p-1">
             {tabs.map((t) => (
               <button
                 key={t.id}
                 type="button"
                 onClick={() => onTabChange(t.id)}
-                className={`rounded-[var(--talqui-radius-sm-inset-4)] px-3 py-2 text-sm font-semibold ${
+                className={`rounded-full px-3 py-2 text-sm font-semibold ${
                   tab === t.id
                     ? "bg-[var(--talqui-bg-weaker)] text-[var(--talqui-text-primary)]"
                     : "text-[var(--talqui-text-medium)] hover:bg-neutral-50"
@@ -68,7 +68,7 @@ export function FilterBar({
           </div>
         </div>
         <div className="flex items-center gap-4">
-        <div className="flex h-10 w-[304px] items-center gap-2 rounded-[var(--talqui-radius-sm)] border border-[var(--talqui-border-weak)] bg-white px-2 py-2">
+        <div className="flex h-10 w-[304px] items-center gap-2 rounded-[var(--talqui-radius-sm)] border border-[var(--talqui-border-weak)] bg-white px-3 py-2">
           <span className="text-sm text-[var(--talqui-text-weak)]">
             Selecione
           </span>

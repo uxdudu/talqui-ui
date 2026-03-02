@@ -4,6 +4,7 @@ import {
   PERMISSIONS_BY_CATEGORY,
   ABOUT_INTEGRATION_TEXT,
 } from "../details-modal-content";
+import { getExtensionLogo, getLocalExtensionLogoUrl } from "../../../lib/brand-icons";
 import { getExtensionLogoUrl } from "../../../lib/brandfetch";
 import { Icons } from "../../../components/icons";
 import { Button } from "../../../components/ui/Button";
@@ -47,14 +48,12 @@ interface ExtensionDetailsContentProps {
   extension: Extension;
   variant: ExtensionDetailsVariant;
   onInstall?: (id: string) => void;
-  onUninstall?: (id: string) => void;
 }
 
 export function ExtensionDetailsContent({
   extension,
-  variant,
+  variant: _variant,
   onInstall,
-  onUninstall,
 }: ExtensionDetailsContentProps) {
   const priceLabel =
     extension.price.type === "free"
@@ -62,7 +61,7 @@ export function ExtensionDetailsContent({
       : extension.price.type === "trial"
         ? `Mín. ${extension.price.minDays} dias`
         : `R$ ${extension.price.value} /mês`;
-  const isInstalled = variant === "settings";
+  const isInstalled = extension.installed !== false;
 
   return (
     <div className="flex flex-col overflow-hidden rounded-3xl border border-[var(--talqui-border-weak)] bg-white shadow-lg">
@@ -108,11 +107,26 @@ export function ExtensionDetailsContent({
           </div>
           <div className="flex items-center gap-2">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-white bg-[#25D366] shadow-sm">
-              <img
-                src={getExtensionLogoUrl(extension)}
-                alt=""
-                className="h-7 w-7 object-contain"
-              />
+              {(() => {
+                const Logo = getExtensionLogo(extension.id);
+                if (Logo) {
+                  return (
+                    <Logo
+                      className="h-7 w-7 shrink-0 text-white"
+                      aria-hidden
+                    />
+                  );
+                }
+                const localLogoUrl = getLocalExtensionLogoUrl(extension.id);
+                const logoUrl = localLogoUrl ?? getExtensionLogoUrl(extension);
+                return (
+                  <img
+                    src={logoUrl}
+                    alt=""
+                    className="h-7 w-7 object-contain"
+                  />
+                );
+              })()}
             </div>
             <Icons.Exchange size={24} className="text-[var(--talqui-text-weak)]" />
             <div className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-white bg-[var(--talqui-text-primary)] shadow-sm text-white">
@@ -184,15 +198,7 @@ export function ExtensionDetailsContent({
           >
             Ver vídeo
           </Button>
-          {isInstalled ? (
-            <Button
-              size="large"
-              variant="danger"
-              onClick={() => onUninstall?.(extension.id)}
-            >
-              Desinstalar
-            </Button>
-          ) : (
+          {!isInstalled && (
             <Button
               size="large"
               variant="primary"

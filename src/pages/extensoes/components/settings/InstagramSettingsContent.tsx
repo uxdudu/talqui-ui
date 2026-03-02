@@ -1,5 +1,4 @@
-import type { Connection } from "../../data";
-import { getExtensionLogo } from "../../../../lib/brand-icons";
+import { getExtensionLogo, getLocalExtensionLogoUrl } from "../../../../lib/brand-icons";
 import { getExtensionLogoUrl } from "../../../../lib/brandfetch";
 import { Icons } from "../../../../components/icons";
 import { Button } from "../../../../components/ui/Button";
@@ -10,6 +9,7 @@ export function InstagramSettingsContent({
   connection,
   onConnectionChange,
   onUninstall,
+  hideContentHeader = false,
 }: ConnectionSettingsContentProps) {
   const connected = connection?.connected ?? false;
 
@@ -25,54 +25,60 @@ export function InstagramSettingsContent({
 
   return (
     <div className="flex max-w-[740px] flex-col gap-6">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <div>
-            <h2 className="text-lg font-bold leading-7 text-(--talqui-text-strong)">
-              Configurações da extensão
-            </h2>
-            <p className="mt-1 text-sm leading-5 text-(--talqui-text-medium)">
-              Conecte sua conta do Instagram via API. Uma única conexão por extensão.
-            </p>
+      {!hideContentHeader && (
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h2 className="text-lg font-bold leading-7 text-(--talqui-text-strong)">
+                Configurações da extensão
+              </h2>
+              <p className="mt-1 text-sm leading-5 text-(--talqui-text-medium)">
+                Conecte sua conta do Instagram via API. Uma única conexão por extensão.
+              </p>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-(--talqui-radius-sm) px-2 py-1 text-sm font-semibold leading-5 text-(--talqui-text-medium)">
+              Salvo automaticamente
+            </span>
           </div>
-          <span className="inline-flex shrink-0 items-center gap-1 rounded-(--talqui-radius-sm) px-2 py-1 text-sm font-semibold leading-5 text-(--talqui-text-medium)">
-            Salvo automaticamente
-          </span>
         </div>
-      </div>
+      )}
 
       <div className="overflow-hidden rounded-(--talqui-radius-xl) border border-(--talqui-border-normal) bg-(--talqui-bg-base)">
         <div className="flex flex-col gap-6 p-6">
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border-2 border-(--talqui-border-weak) p-2">
-              {(() => {
-                const Logo = getExtensionLogo(extension.id);
-                if (Logo) {
+          {!hideContentHeader && (
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border-2 border-(--talqui-border-weak) p-2">
+                {(() => {
+                  const Logo = getExtensionLogo(extension.id);
+                  if (Logo) {
+                    return (
+                      <Logo
+                        className="h-8 w-8 shrink-0 text-(--talqui-text-strong)"
+                        aria-hidden
+                      />
+                    );
+                  }
+                  const localLogoUrl = getLocalExtensionLogoUrl(extension.id);
+                  const logoUrl = localLogoUrl ?? getExtensionLogoUrl(extension);
                   return (
-                    <Logo
-                      className="h-8 w-8 shrink-0 text-(--talqui-text-strong)"
-                      aria-hidden
+                    <img
+                      src={logoUrl}
+                      alt=""
+                      className="h-8 w-8 object-contain"
                     />
                   );
-                }
-                return (
-                  <img
-                    src={getExtensionLogoUrl(extension)}
-                    alt=""
-                    className="h-8 w-8 object-contain"
-                  />
-                );
-              })()}
+                })()}
+              </div>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-lg font-bold text-(--talqui-text-strong)">
+                  {extension.name}
+                </h3>
+                <p className="mt-0.5 text-sm text-(--talqui-text-medium)">
+                  Conexão direta via API oficial do Instagram. Clique em Conectar para autorizar.
+                </p>
+              </div>
             </div>
-            <div className="min-w-0 flex-1">
-              <h3 className="text-lg font-bold text-(--talqui-text-strong)">
-                {extension.name}
-              </h3>
-              <p className="mt-0.5 text-sm text-(--talqui-text-medium)">
-                Conexão direta via API oficial do Instagram. Clique em Conectar para autorizar.
-              </p>
-            </div>
-          </div>
+          )}
 
           <section className="flex flex-col gap-2">
             <h4 className="text-base font-semibold leading-6 tracking-[-0.32px] text-(--talqui-text-strong)">
@@ -123,10 +129,7 @@ export function InstagramSettingsContent({
         </footer>
       </div>
 
-      <div className="flex flex-wrap items-center justify-end gap-3">
-        <Button size="large" variant="secondary">
-          Ver vídeo
-        </Button>
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Button
           size="large"
           variant="danger"

@@ -15,7 +15,7 @@ import {
 } from "./components";
 import { KNOWLEDGE_SOURCES, EMPTY_KNOWLEDGE_SOURCE } from "./knowledge-data";
 import type { KnowledgeSource } from "./knowledge-data";
-import { PROCEDURES } from "./data";
+import { PROCEDURES, EMPTY_PROCEDURE } from "./data";
 import type { Procedure } from "./data";
 import type { ProcedureVersao } from "./data";
 
@@ -64,6 +64,44 @@ export function ProcedimentosPage({ activeNav = "procedimentos", onNavTo }: Proc
       publicar: boolean;
     }
   ) => {
+    if (id === "new") {
+      const nextId = String(
+        Math.max(0, ...procedures.map((p) => parseInt(p.id, 10) || 0)) + 1
+      );
+      const newProcedure: Procedure = {
+        id: nextId,
+        title: data.title,
+        trigger: "",
+        content: data.content,
+        tipo: data.tipo,
+        estado: data.estado,
+        categoria: data.categoria,
+        habilidades: data.habilidades,
+        knowledgeIds: data.knowledgeIds,
+        skillsCount: data.habilidades.length,
+        frequency: 0,
+        versao: data.publicar ? 1 : 1,
+        publicado: data.publicar,
+        versoes: data.publicar
+          ? [
+              {
+                versao: 1,
+                title: data.title,
+                content: data.content,
+                tipo: data.tipo,
+                estado: data.estado,
+                categoria: data.categoria,
+                habilidades: data.habilidades,
+                knowledgeIds: data.knowledgeIds,
+                createdAt: new Date().toISOString(),
+              } satisfies ProcedureVersao,
+            ]
+          : [],
+      };
+      setProcedures((prev) => [...prev, newProcedure]);
+      setEditingProcedure(null);
+      return;
+    }
     setProcedures((prev) =>
       prev.map((p) => {
         if (p.id !== id) return p;
@@ -248,7 +286,10 @@ export function ProcedimentosPage({ activeNav = "procedimentos", onNavTo }: Proc
                       <ProceduresToolbar
                         totalCount={filtered.length}
                         onSearchChange={setSearch}
-                        onNewProcedure={() => {}}
+                        onNewProcedure={() => {
+                        setContentSubNav("procedimentos");
+                        setEditingProcedure(EMPTY_PROCEDURE);
+                      }}
                       />
                       <ProceduresTable
                         procedures={filtered}

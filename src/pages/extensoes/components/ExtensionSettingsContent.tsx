@@ -5,7 +5,7 @@ import {
   PERMISSIONS_BY_CATEGORY,
   ABOUT_INTEGRATION_SUMMARY,
 } from "../details-modal-content";
-import { getExtensionLogo } from "../../../lib/brand-icons";
+import { getExtensionLogo, getLocalExtensionLogoUrl } from "../../../lib/brand-icons";
 import { getExtensionLogoUrl } from "../../../lib/brandfetch";
 import { Icons } from "../../../components/icons";
 import { Button } from "../../../components/ui/Button";
@@ -97,6 +97,21 @@ export function ExtensionSettingsContent({
     setPermissions((prev) => ({ ...prev, [key]: enabled }));
   };
 
+  const handleCancelParams = () => {
+    setWebhookUrl("");
+    setApiKey("");
+    setConnected(false);
+    const initial: Record<string, boolean> = {};
+    (Object.entries(PERMISSIONS_BY_CATEGORY) as [keyof typeof PERMISSIONS_BY_CATEGORY, readonly string[]][]).forEach(
+      ([category, labels]) => {
+        labels.forEach((label) => {
+          initial[`${category}-${label}`] = true;
+        });
+      }
+    );
+    setPermissions(initial);
+  };
+
   return (
     <div className="flex max-w-[740px] flex-col gap-6">
       {/* SubHeader — padrão das páginas de procedimentos: título + descrição */}
@@ -133,9 +148,11 @@ export function ExtensionSettingsContent({
                     />
                   );
                 }
+                const localLogoUrl = getLocalExtensionLogoUrl(extension.id);
+                const logoUrl = localLogoUrl ?? getExtensionLogoUrl(extension);
                 return (
                   <img
-                    src={getExtensionLogoUrl(extension)}
+                    src={logoUrl}
                     alt={`Logo da extensão ${extension.name}`}
                     className="h-8 w-8 object-contain"
                   />
@@ -242,7 +259,10 @@ export function ExtensionSettingsContent({
                   className="min-h-[36px] rounded-(--talqui-radius-sm) border border-(--talqui-border-weak) bg-(--talqui-bg-base) px-2 py-2 text-sm leading-5 text-(--talqui-text-strong) placeholder:text-(--talqui-text-weak) focus:border-(--talqui-border-strong) focus:outline-none focus:ring-1 focus:ring-(--talqui-border-strong)"
                 />
               </div>
-              <div className="flex justify-end">
+              <div className="flex justify-end gap-2">
+                <Button size="large" variant="secondary" onClick={handleCancelParams}>
+                  Cancelar
+                </Button>
                 <Button size="large" variant="primary">
                   Salvar parâmetros
                 </Button>
@@ -307,11 +327,8 @@ export function ExtensionSettingsContent({
         </footer>
       </div>
 
-      {/* Actions row: Ver vídeo + Desinstalar */}
-      <div className="flex flex-wrap items-center justify-end gap-3">
-        <Button size="large" variant="secondary">
-          Ver vídeo
-        </Button>
+      {/* Actions row: Desinstalar (esquerda) + Salvar (direita) */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Button
           size="large"
           variant="danger"

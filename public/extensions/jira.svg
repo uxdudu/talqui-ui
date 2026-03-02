@@ -1,0 +1,29 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="urn:talqui:jira:0" clip-path="url(#clip0_2009_3529)">
+<g id="background">
+<rect width="256" height="256" fill="url(#paint0_linear_2009_3529)"/>
+</g>
+<g id="Group">
+<path id="Shape" d="M203.373 45.25H123.407C123.407 54.8238 127.21 64.0055 133.98 70.7752C140.749 77.5449 149.931 81.3481 159.505 81.3481H174.236V95.57C174.248 115.488 190.392 131.632 210.311 131.645V52.1875C210.311 48.356 207.205 45.25 203.373 45.25Z" fill="#2684FF"/>
+<path id="Shape_2" d="M163.806 85.0944H83.84C83.8527 105.013 99.9966 121.157 119.915 121.169H134.646V135.437C134.671 155.356 150.825 171.489 170.744 171.489V92.0319C170.744 88.2004 167.638 85.0944 163.806 85.0944Z" fill="url(#paint1_linear_2009_3529)"/>
+<path id="Shape_3" d="M124.216 124.916H44.25C44.25 144.852 60.4117 161.014 80.3481 161.014H95.125V175.236C95.1377 195.136 111.253 211.272 131.154 211.311V131.853C131.154 128.022 128.048 124.916 124.216 124.916Z" fill="url(#paint2_linear_2009_3529)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_2009_3529" x1="128" y1="0" x2="128" y2="256" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FEFEFE"/>
+<stop offset="1" stop-color="#CAECFF"/>
+</linearGradient>
+<linearGradient id="paint1_linear_2009_3529" x1="151.389" y1="68.3242" x2="117.579" y2="103.603" gradientUnits="userSpaceOnUse">
+<stop offset="0.18" stop-color="#0052CC"/>
+<stop offset="1" stop-color="#2684FF"/>
+</linearGradient>
+<linearGradient id="paint2_linear_2009_3529" x1="2575.25" y1="2389.7" x2="1122.72" y2="3827.2" gradientUnits="userSpaceOnUse">
+<stop offset="0.18" stop-color="#0052CC"/>
+<stop offset="1" stop-color="#2684FF"/>
+</linearGradient>
+<clipPath id="clip0_2009_3529">
+<rect width="256" height="256" fill="white"/>
+</clipPath>
+</defs>
+</svg>

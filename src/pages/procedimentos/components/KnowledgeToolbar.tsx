@@ -72,7 +72,7 @@ export function KnowledgeToolbar({
           className="flex cursor-pointer items-center gap-2 rounded-(--talqui-radius-sm) bg-(--talqui-text-primary) px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:opacity-90"
         >
           <Icons.Plus size={20} />
-          Adicionar conhecimento
+          Novo conhecimento
         </button>
       </div>
     </div>

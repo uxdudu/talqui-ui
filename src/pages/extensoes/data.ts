@@ -13,8 +13,10 @@ export interface Extension {
   price: ExtensionPrice;
   enabled: boolean;
   showSettings: boolean;
-  /** Se true, o usuário pode criar várias conexões (ex.: várias lojas iFood). Se false, há uma única configuração por extensão (ex.: uma conta Instagram). */
+  /** Se true, o usuário pode criar várias conexões (multi connection). Se false, há uma única conexão por extensão (single connection). */
   allowsMultipleConnections?: boolean;
+  /** Se false, a extensão aparece como "não instalada" (botão Instalar, sem tag Instalado). Omitido = true. */
+  installed?: boolean;
 }
 
 /** Uma instância de conexão de uma extensão (ex.: uma conta Instagram, uma loja iFood). */
@@ -24,8 +26,63 @@ export interface Connection {
   name: string;
   /** Dados específicos da conexão; cada extensão interpreta como quiser. */
   config: Record<string, unknown>;
+  /** @deprecated Preferir status. Quando true equivale a status "connected". */
   connected?: boolean;
+  /** Status da conexão (PRD §10). Se ausente, deriva de connected. */
+  status?: ConnectionStatus;
   createdAt?: string;
+}
+
+/** Status de conexão (PRD §10). */
+export type ConnectionStatus = "connected" | "disconnected" | "error" | "warning";
+
+const STATUS_LABELS: Record<ConnectionStatus, string> = {
+  connected: "Conexão estável",
+  disconnected: "Desconectado",
+  error: "Erro de conexão",
+  warning: "Atenção necessária",
+};
+
+/** Retorna o status efetivo da conexão (usa status ou deriva de connected). */
+export function getConnectionStatus(c: Connection): ConnectionStatus {
+  if (c.status) return c.status;
+  return c.connected ? "connected" : "disconnected";
+}
+
+/** Label do status para exibição. */
+export function getConnectionStatusLabel(status: ConnectionStatus): string {
+  return STATUS_LABELS[status];
+}
+
+/**
+ * Extensões multi connection: o usuário vê a lista de conexões e, ao escolher uma,
+ * entra na tela de configuração (mesma estrutura visual da extensão single connection).
+ * As demais são single connection: uma única conexão por extensão, acesso direto à configuração.
+ */
+export const MULTI_CONNECTION_EXTENSION_IDS = new Set([
+  "ifood",
+  "whatsapp-api",
+  "sgp",
+  "ixc",
+  "instagram",
+  "lugares",
+  "calendly",
+  "mercadolivre",
+  "messenger",
+  "telegram",
+  "whatsapp-oficial",
+  "whatsapp-business",
+  "leaf-provedor",
+  "wordpress",
+  "chatbot",
+  "hubsoft",
+  "webchat",
+  "ntfy",
+]);
+
+/** Retorna true se a extensão é multi connection. */
+export function isMultiConnectionExtension(extensionId: string): boolean {
+  return MULTI_CONNECTION_EXTENSION_IDS.has(extensionId);
 }
 
 // Placeholder logos (Figma assets) para extensões sem ícone SVG no brand-icons
@@ -56,6 +113,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "sgp",
@@ -66,6 +124,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "ixc",
@@ -76,6 +135,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "ifood",
@@ -98,7 +158,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
-    allowsMultipleConnections: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "calendly",
@@ -110,7 +170,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
-    allowsMultipleConnections: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "pipedrive",
@@ -144,6 +204,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "trial", minDays: 14 },
     enabled: true,
     showSettings: true,
+    allowsMultipleConnections: true,
   },
   {
     id: "instagram",
@@ -155,7 +216,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: true,
     showSettings: true,
-    allowsMultipleConnections: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "messenger",
@@ -167,6 +228,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "telegram",
@@ -178,6 +240,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "whatsapp-oficial",
@@ -189,6 +252,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "whatsapp-business",
@@ -200,16 +264,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
-  },
-  {
-    id: "whatsapp-plus",
-    name: "WhatsApp Plus",
-    description:
-      "Plano pago com mais números e recursos avançados. Apenas fictício para testar UI de extensão paga.",
-    logoUrl: LOGO_APP,
-    price: { type: "paid", value: "29" },
-    enabled: true,
-    showSettings: true,
+    allowsMultipleConnections: true,
   },
   {
     id: "hotmart",
@@ -231,6 +286,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "wordpress",
@@ -242,6 +298,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "chatbot",
@@ -252,6 +309,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "hubsoft",
@@ -262,6 +320,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "webchat",
@@ -272,6 +331,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "ntfy",
@@ -282,6 +342,7 @@ export const EXTENSIONS: Extension[] = [
     price: { type: "free" },
     enabled: false,
     showSettings: false,
+    allowsMultipleConnections: true,
   },
   {
     id: "jira",

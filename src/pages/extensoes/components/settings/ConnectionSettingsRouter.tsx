@@ -1,7 +1,4 @@
-import type { Connection } from "../../data";
-import { getExtensionLogo } from "../../../../lib/brand-icons";
-import { Icons } from "../../../../components/icons";
-import { Button } from "../../../../components/ui/Button";
+import type { ReactElement } from "react";
 import { InstagramSettingsContent } from "./InstagramSettingsContent";
 import { LugaresSettingsContent } from "./LugaresSettingsContent";
 import { CalendlySettingsContent } from "./CalendlySettingsContent";
@@ -11,7 +8,7 @@ import type { ConnectionSettingsContentProps } from "./types";
 
 const SETTINGS_MAP: Record<
   string,
-  (props: ConnectionSettingsContentProps) => JSX.Element
+  (props: ConnectionSettingsContentProps) => ReactElement
 > = {
   instagram: InstagramSettingsContent,
   lugares: LugaresSettingsContent,
@@ -21,7 +18,7 @@ const SETTINGS_MAP: Record<
 
 export function getConnectionSettingsContent(
   extensionId: string
-): (props: ConnectionSettingsContentProps) => JSX.Element {
+): (props: ConnectionSettingsContentProps) => ReactElement {
   return SETTINGS_MAP[extensionId] ?? GenericSettingsContent;
 }
 

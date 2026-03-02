@@ -92,19 +92,67 @@ const BRAND_ICONS: Record<
 
 /** Mapeia extension.id (ou prefixo) para a chave do ícone no banco. */
 function getBrandKey(extensionId: string): BrandIconKey | null {
-  if (extensionId === "instagram") return "instagram";
-  if (extensionId === "messenger") return "messenger";
-  if (extensionId === "telegram") return "telegram";
-  if (extensionId === "slack") return "slack";
+  // Usam logo local em public/extensions (talqui-extensions-icon)
+  if (extensionId === "instagram") return null;
+  if (extensionId === "messenger") return null;
+  if (extensionId === "slack") return null;
+  if (extensionId === "telegram") return null;
+  if (extensionId === "whatsapp-business") return null;
+  if (extensionId === "whatsapp-api") return null;
+  if (extensionId === "whatsapp-oficial") return null;
   if (
     extensionId.startsWith("wa-") ||
     extensionId.startsWith("whatsapp") ||
-    extensionId === "whatsapp-api" ||
-    extensionId === "whatsapp-oficial" ||
-    extensionId === "whatsapp-business"
+    extensionId === "whatsapp-plus"
   )
     return "whatsapp";
   return null;
+}
+
+/** Extensões com logo local em public/extensions (nome do arquivo = id ou mapeado abaixo). */
+const LOCAL_EXTENSION_LOGOS = new Set([
+  "talqui-ai",
+  "sgp",
+  "ixc",
+  "ifood",
+  "lugares",
+  "calendly",
+  "pipedrive",
+  "pipefy",
+  "mercadolivre",
+  "hotmart",
+  "wordpress",
+  "chatbot",
+  "hubsoft",
+  "webchat",
+  "ntfy",
+  "jira",
+  "slack",
+  "hubspot",
+  "dify",
+  "whatsapp-business",
+  "whatsapp-api",
+  "whatsapp-oficial",
+  "instagram",
+  "messenger",
+  "telegram",
+  "resumos",
+  "leaf-provedor",
+]);
+
+/** Extensões cuja logo é PNG (demais são SVG). */
+const LOCAL_EXTENSION_LOGO_EXT: Record<string, string> = {
+  "leaf-provedor": "png",
+};
+
+/**
+ * Retorna a URL da logo local da extensão (public/extensions), ou null se não houver.
+ * Priorizar sobre Brandfetch/logoUrl quando existir.
+ */
+export function getLocalExtensionLogoUrl(extensionId: string): string | null {
+  if (!extensionId || !LOCAL_EXTENSION_LOGOS.has(extensionId)) return null;
+  const ext = LOCAL_EXTENSION_LOGO_EXT[extensionId] ?? "svg";
+  return `/extensions/${extensionId}.${ext}`;
 }
 
 /**

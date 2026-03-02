@@ -131,7 +131,7 @@ export function ExtensoesPage({ activeNav = "extensoes", onNavTo }: ExtensoesPag
   const handleInstall = (id: string) => {
     setExtensions((prev) =>
       prev.map((e) =>
-        e.id === id ? { ...e, enabled: true, showSettings: true } : e
+        e.id === id ? { ...e, installed: true, enabled: true, showSettings: true } : e
       )
     );
     setDetailsModalExtension(null);
@@ -140,9 +140,10 @@ export function ExtensoesPage({ activeNav = "extensoes", onNavTo }: ExtensoesPag
   const handleUninstall = (id: string) => {
     setExtensions((prev) =>
       prev.map((e) =>
-        e.id === id ? { ...e, enabled: false, showSettings: false } : e
+        e.id === id ? { ...e, installed: false, enabled: false, showSettings: false } : e
       )
     );
+    setDetailsModalExtension(null);
     setSettingsExtensionId(null);
     setSettingsConnectionId(null);
   };
@@ -185,9 +186,11 @@ export function ExtensoesPage({ activeNav = "extensoes", onNavTo }: ExtensoesPag
                     <ExtensionCard
                       key={ext.id}
                       extension={ext}
+                      connectionCount={connectionsByExtension[ext.id]?.length ?? 0}
                       onToggle={handleToggle}
                       onSettings={handleSettings}
                       onDetails={handleDetails}
+                      onInstall={handleInstall}
                     />
                   ))}
                 </div>

@@ -1,7 +1,4 @@
-/**
- * Gráfico de rosca (donut). Segmentos em ordem, centro com total.
- */
-import type { ReactNode } from "react";
+import { ChartCard } from "../../../components/ui/ChartCard";
 
 function DonutChart({
   data,
@@ -166,38 +163,6 @@ const SUCCESS_COLOR = "var(--talqui-green-500)";
 const FAILURE_COLOR = "#dc2626";
 const ABANDON_COLOR = "#9ca3af";
 
-/** Card de um relatório com título, gráfico e legenda */
-function ReportCard({
-  title,
-  children,
-  legend,
-}: {
-  title: string;
-  children: ReactNode;
-  legend: { label: string; color: string }[];
-}) {
-  return (
-    <article className="flex flex-col gap-3 rounded-(--talqui-radius-xl) border border-(--talqui-border-weak) bg-white p-4 shadow-sm">
-      <h3 className="text-sm font-semibold leading-5 text-(--talqui-text-strong)">{title}</h3>
-      <div className="flex min-h-[120px] flex-1 flex-col items-center justify-center">
-        {children}
-      </div>
-      <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-(--talqui-text-medium)">
-        {legend.map((item, i) => (
-          <span key={i} className="flex items-center gap-1.5">
-            <span
-              className="h-3 w-3 shrink-0 rounded-full"
-              style={{ backgroundColor: item.color }}
-              aria-hidden
-            />
-            {item.label}
-          </span>
-        ))}
-      </div>
-    </article>
-  );
-}
-
 // Dados mock conforme o dashboard de referência
 const MOCK_ATENDIMENTOS_AGREGADO = {
   total: 424,
@@ -275,7 +240,7 @@ const MOCK_TRANSFERENCIAS_AUTONOMAS_RESULTADO = {
 
 export function PerformanceContent() {
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-6">
       <div>
         <h2 className="text-lg font-bold leading-7 text-(--talqui-text-strong)">
           Performance
@@ -285,8 +250,8 @@ export function PerformanceContent() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <ReportCard
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <ChartCard
           title="Atendimentos: Resultado Agregado"
           legend={MOCK_ATENDIMENTOS_AGREGADO.data.map((d) => ({ label: d.label, color: d.color }))}
         >
@@ -294,9 +259,9 @@ export function PerformanceContent() {
             data={MOCK_ATENDIMENTOS_AGREGADO.data}
             total={MOCK_ATENDIMENTOS_AGREGADO.total}
           />
-        </ReportCard>
+        </ChartCard>
 
-        <ReportCard
+        <ChartCard
           title="Atendimentos: Resultado Diário"
           legend={[
             { label: "Falha", color: FAILURE_COLOR },
@@ -306,9 +271,9 @@ export function PerformanceContent() {
           <div className="w-full px-2">
             <StackedBarChart data={MOCK_ATENDIMENTOS_DIARIO} targetLine={50} />
           </div>
-        </ReportCard>
+        </ChartCard>
 
-        <ReportCard
+        <ChartCard
           title="Atendimentos: Resultado Autônomo"
           legend={MOCK_ATENDIMENTOS_AUTONOMO.data.map((d) => ({ label: d.label, color: d.color }))}
         >
@@ -316,9 +281,9 @@ export function PerformanceContent() {
             data={MOCK_ATENDIMENTOS_AUTONOMO.data}
             total={MOCK_ATENDIMENTOS_AUTONOMO.total}
           />
-        </ReportCard>
+        </ChartCard>
 
-        <ReportCard
+        <ChartCard
           title="Atendimentos: Resultado Autônomo Diário"
           legend={[
             { label: "Falha", color: FAILURE_COLOR },
@@ -328,9 +293,9 @@ export function PerformanceContent() {
           <div className="w-full px-2">
             <StackedBarChart data={MOCK_ATENDIMENTOS_DIARIO} targetLine={50} />
           </div>
-        </ReportCard>
+        </ChartCard>
 
-        <ReportCard
+        <ChartCard
           title="Procedimentos: Resultado Individual"
           legend={[
             { label: "Sucesso", color: SUCCESS_COLOR },
@@ -338,9 +303,9 @@ export function PerformanceContent() {
           ]}
         >
           <HorizontalStackedBarChart data={MOCK_PROCEDIMENTOS_INDIVIDUAL} targetLine={50} />
-        </ReportCard>
+        </ChartCard>
 
-        <ReportCard
+        <ChartCard
           title="Procedimentos: Resultado Agregado"
           legend={MOCK_PROCEDIMENTOS_AGREGADO.data.map((d) => ({ label: d.label, color: d.color }))}
         >
@@ -348,9 +313,9 @@ export function PerformanceContent() {
             data={MOCK_PROCEDIMENTOS_AGREGADO.data}
             total={MOCK_PROCEDIMENTOS_AGREGADO.total}
           />
-        </ReportCard>
+        </ChartCard>
 
-        <ReportCard
+        <ChartCard
           title="Procedimentos: Resultado Diário"
           legend={[
             { label: "Abandono", color: ABANDON_COLOR },
@@ -361,9 +326,9 @@ export function PerformanceContent() {
           <div className="w-full px-2">
             <StackedBarChart data={MOCK_PROCEDIMENTOS_DIARIO} targetLine={50} />
           </div>
-        </ReportCard>
+        </ChartCard>
 
-        <ReportCard
+        <ChartCard
           title="Transferências: Perfil de Distribuição"
           legend={MOCK_TRANSFERENCIAS_DISTRIBUICAO.data.map((d) => ({ label: d.label, color: d.color }))}
         >
@@ -371,9 +336,9 @@ export function PerformanceContent() {
             data={MOCK_TRANSFERENCIAS_DISTRIBUICAO.data}
             total={MOCK_TRANSFERENCIAS_DISTRIBUICAO.total}
           />
-        </ReportCard>
+        </ChartCard>
 
-        <ReportCard
+        <ChartCard
           title="Transferências Autônomas: Resultado"
           legend={MOCK_TRANSFERENCIAS_AUTONOMAS_RESULTADO.data.map((d) => ({ label: d.label, color: d.color }))}
         >
@@ -381,7 +346,7 @@ export function PerformanceContent() {
             data={MOCK_TRANSFERENCIAS_AUTONOMAS_RESULTADO.data}
             total={MOCK_TRANSFERENCIAS_AUTONOMAS_RESULTADO.total}
           />
-        </ReportCard>
+        </ChartCard>
       </div>
     </section>
   );

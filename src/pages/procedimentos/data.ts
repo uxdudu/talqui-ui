@@ -51,6 +51,24 @@ export interface Procedure {
 
 const defaultContent = `Descreva o procedimento e como o agente deve agir em cada etapa.`;
 
+/** Procedimento vazio para criar novo (id "new" identifica modo criação) */
+export const EMPTY_PROCEDURE: Procedure = {
+  id: "new",
+  title: "",
+  trigger: "",
+  content: defaultContent,
+  tipo: "conversacional",
+  estado: "todas_respostas",
+  categoria: "comercial_vendas",
+  habilidades: [],
+  knowledgeIds: [],
+  skillsCount: 0,
+  frequency: 0,
+  versao: 1,
+  publicado: false,
+  versoes: [],
+};
+
 export const PROCEDURES: Procedure[] = [
   { id: "1", title: "Agendamento", trigger: "Ao envio de qualquer mensagem", content: defaultContent, tipo: "conversacional", estado: "todas_respostas", categoria: "comercial_vendas", habilidades: ["agendar_reuniao", "listar_horarios"], knowledgeIds: [], skillsCount: 1, frequency: 0, versao: 1, publicado: true, versoes: [] },
   { id: "2", title: "Horário de atendimento", trigger: "Início de conversa - saudação", content: defaultContent, tipo: "conversacional", estado: "todas_respostas", categoria: "conhecimentos_gerais", habilidades: ["verificar_horario", "listar_horarios"], knowledgeIds: [], skillsCount: 2, frequency: 249, versao: 2, publicado: true, versoes: [] },

@@ -1,5 +1,9 @@
 export { ConnectionSettingsRouter, getConnectionSettingsContent } from "./ConnectionSettingsRouter";
+export { ConfigHeader } from "./ConfigHeader";
 export { ConnectionListContent } from "./ConnectionListContent";
+export { SaveBar } from "./SaveBar";
+export { StatusBadge } from "./StatusBadge";
+export { IFoodGlobalSettingsContent } from "./IFoodGlobalSettingsContent";
 export { InstagramSettingsContent } from "./InstagramSettingsContent";
 export { LugaresSettingsContent } from "./LugaresSettingsContent";
 export { CalendlySettingsContent } from "./CalendlySettingsContent";

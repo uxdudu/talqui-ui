@@ -110,6 +110,8 @@ export function ProcedureEditorPage({
     JSON.stringify(knowledgeIds.sort()) !==
       JSON.stringify([...procedure.knowledgeIds].sort());
 
+  const isNewProcedure = procedure.id === "new";
+
   const buildSaveData = (): ProcedureSaveData => {
     const extracted = extractMentionIds(content).filter((id) =>
       validHabilidadeIds.has(id as ProcedureHabilidade)
@@ -312,6 +314,7 @@ export function ProcedureEditorPage({
               >
                 Publicar
               </Button>
+              {!isNewProcedure && (
               <button
                 type="button"
                 onClick={handleDelete}
@@ -320,6 +323,7 @@ export function ProcedureEditorPage({
               >
                 <Icons.Delete size={20} />
               </button>
+              )}
             </>
           )}
         </div>
@@ -456,92 +460,6 @@ export function ProcedureEditorPage({
                   </div>
                 );
               })}
-            </div>
-          </section>
-
-          <section className="flex flex-col gap-2">
-            <label className={labelClasses}>Histórico de versões</label>
-            <p className="text-xs text-(--talqui-text-weak)">
-              Versão em uso, rascunho e publicações anteriores
-            </p>
-            <div className="flex flex-col gap-1.5">
-              <button
-                type="button"
-                onClick={() => setViewingVersion(null)}
-                className={`flex w-full flex-col gap-0.5 rounded-(--talqui-radius-lg) border px-2.5 py-2 text-left transition-colors ${
-                  !viewingVersion
-                    ? "border-(--talqui-text-primary) bg-(--talqui-primary-a10)"
-                    : "border-(--talqui-border-weak) bg-white hover:bg-(--talqui-bg-weaker)"
-                }`}
-              >
-                <span className="text-sm font-medium text-(--talqui-text-strong)">
-                  {procedure.publicado
-                    ? `Versão ${procedure.versao} · Em uso`
-                    : "Rascunho atual"}
-                </span>
-                {procedure.publicado && (
-                  <span className="text-xs text-(--talqui-text-weak)">
-                    Publicada · conteúdo atual
-                  </span>
-                )}
-              </button>
-              {versoesOrdenadas.map((v) => {
-                const isSelected =
-                  viewingVersion?.versao === v.versao;
-                return (
-                  <div
-                    key={v.versao}
-                    className={`overflow-hidden rounded-(--talqui-radius-lg) border bg-white transition-colors ${
-                      isSelected
-                        ? "border-(--talqui-text-primary) bg-(--talqui-primary-a10)"
-                        : "border-(--talqui-border-weak)"
-                    }`}
-                  >
-                    <div className="flex flex-col gap-1.5 px-2.5 py-2">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-sm font-medium text-(--talqui-text-strong)">
-                          Versão {v.versao}
-                        </span>
-                        {v.createdAt && (
-                          <span className="text-xs text-(--talqui-text-weak)">
-                            {formatVersionDate(v.createdAt)}
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => setViewingVersion(v)}
-                          className="rounded-(--talqui-radius-sm) bg-(--talqui-bg-weaker) px-2 py-1 text-xs font-medium text-(--talqui-text-strong) transition-colors hover:bg-(--talqui-border-weak)"
-                        >
-                          Ver
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            onPublishVersion(procedure.id, v);
-                            setTitle(v.title);
-                            setContent(stripLeadingHeading(v.content));
-                            setTipo(v.tipo);
-                            setEstado(v.estado);
-                            setCategoria(v.categoria);
-                            setKnowledgeIds([...v.knowledgeIds]);
-                            setViewingVersion(null);
-                          }}
-                          className="rounded-(--talqui-radius-sm) bg-(--talqui-text-primary) px-2 py-1 text-xs font-medium text-white transition-colors hover:opacity-90"
-                        >
-                          Publicar esta versão
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-              {versoesOrdenadas.length === 0 && (
-                <p className="px-2 text-xs text-(--talqui-text-weak)">
-                  Nenhuma versão anterior. Ao publicar, uma nova versão será salva aqui.
-                </p>
-              )}
             </div>
           </section>
 

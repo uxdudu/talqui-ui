@@ -12,6 +12,8 @@ const sizeClasses = {
 const variantClasses = {
   primary:
     "border-transparent bg-(--talqui-text-primary) text-white hover:opacity-90 focus-visible:ring-(--talqui-text-primary)",
+  primaryOutline:
+    "border border-(--talqui-text-primary) bg-transparent text-(--talqui-text-primary) hover:bg-(--talqui-text-primary)/10 focus-visible:ring-(--talqui-text-primary)",
   secondary:
     "border border-(--talqui-border-weak) bg-(--talqui-bg-base) text-(--talqui-text-medium) hover:bg-(--talqui-bg-weaker) focus-visible:ring-(--talqui-text-primary)",
   secondaryOutline:

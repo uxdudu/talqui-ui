@@ -10,8 +10,6 @@ export type { DateRange };
 
 type EstatisticasTab = "overview" | "operadores" | "conversas";
 
-const GRANULARIDADE_OPCOES = ["Por hora", "Diariamente", "Mensalmente"] as const;
-
 const VOLUME_HOURS = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, "0")}:00`);
 
 function formatPeriodLabel(range: DateRange): string {
@@ -72,7 +70,6 @@ type PeriodMockData = {
 
 const ORANGE_BASE = "#f97316";
 const ORANGE_DARK = "#ea580c";
-const ORANGE_SOFT = "#fed7aa";
 
 const BASE_ACTIVITY_ATUAL = [52, 68, 75, 61, 90, 72, 40];
 const BASE_ACTIVITY_ANTERIOR = [48, 60, 70, 55, 80, 65, 36];
@@ -626,9 +623,6 @@ function OverviewTab({
   leaderboard: LeaderboardItem[];
   periodLabel: string;
 }) {
-  const [granularityOverview, setGranularityOverview] =
-    useState<(typeof GRANULARIDADE_OPCOES)[number]>("Diariamente");
-
   return (
     <div className="flex flex-col gap-6">
       <div className="grid gap-4 md:grid-cols-3">

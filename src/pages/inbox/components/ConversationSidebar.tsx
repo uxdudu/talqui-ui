@@ -333,7 +333,7 @@ export function ConversationSidebar({
                           onClick={() => onUseExtension?.(ext.id)}
                           className="flex w-full items-center gap-2 rounded-(--talqui-radius-sm) bg-white px-2 py-2 text-left text-sm text-(--talqui-text-primary) transition-colors duration-200 cursor-pointer hover:bg-(--talqui-bg-weaker)"
                         >
-                          <Icons.Flash size={16} className="shrink-0 text-(--talqui-text-primary)" />
+                          <Icons.Shortcut size={16} className="shrink-0 text-(--talqui-text-primary)" />
                           <span className="min-w-0 flex-1 truncate">
                             Usar {ext.name} nesta conversa
                           </span>
